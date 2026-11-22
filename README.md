@@ -13,13 +13,19 @@ Requires Node.js 22.12+ (see `.nvmrc`) and a MongoDB Atlas cluster (the free tie
 
 ```bash
 npm install
-cp .env.example .env   # then fill in MONGODB_URI and JWT_ACCESS_SECRET
+cp .env.example .env   # fill in MONGODB_URI, JWT_ACCESS_SECRET, SEED_DEMO_PASSWORD
+npm run db:check       # verify the Atlas connection and create indexes
+npm run db:seed        # optional: demo user + sample notes
 npm run dev            # http://localhost:4000, docs at http://localhost:4000/docs
 ```
+
+`MONGODB_URI` is the Atlas string exactly as Atlas gives it. The database name comes from `MONGODB_DB_NAME` (`evernote-replica-dev` locally).
 
 | Script                        | What it does                                       |
 | ----------------------------- | -------------------------------------------------- |
 | `npm run dev`                 | Start with reload (tsx watch, pretty logs)         |
+| `npm run db:check`            | Test the DB connection, build indexes, print stats |
+| `npm run db:seed`             | Reset the demo user and sample notes (dev only)    |
 | `npm run build` / `npm start` | Compile to `dist/` and run it                      |
 | `npm test`                    | Run the tests (in-memory MongoDB, no Atlas needed) |
 | `npm run lint` / `typecheck`  | ESLint / tsc                                       |

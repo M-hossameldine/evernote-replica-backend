@@ -3,14 +3,16 @@ import mongoose from 'mongoose';
 import { logger } from './logger.js';
 
 let listenersAttached = false;
+let closingIntentionally = false;
 
 function attachConnectionListeners() {
   if (listenersAttached) return;
   listenersAttached = true;
 
-  mongoose.connection.on('disconnected', () =>
-    logger.warn('MongoDB disconnected')
-  );
+  mongoose.connection.on('disconnected', () => {
+    if (closingIntentionally) logger.debug('MongoDB connection closed');
+    else logger.warn('MongoDB disconnected');
+  });
   mongoose.connection.on('reconnected', () =>
     logger.info('MongoDB reconnected')
   );
@@ -25,6 +27,7 @@ export async function connectDatabase(options: {
   dbName?: string;
 }): Promise<void> {
   attachConnectionListeners();
+  closingIntentionally = false;
 
   await mongoose.connect(options.uri, {
     dbName: options.dbName,
@@ -39,6 +42,7 @@ export async function connectDatabase(options: {
 }
 
 export async function disconnectDatabase(): Promise<void> {
+  closingIntentionally = true;
   await mongoose.disconnect();
 }
 

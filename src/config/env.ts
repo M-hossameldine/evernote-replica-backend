@@ -38,7 +38,10 @@ const envSchema = z.object({
   TRUST_PROXY: z.coerce.number().int().min(0).default(0),
 
   MONGODB_URI: z
-    .string()
+    .string({
+      error:
+        'MONGODB_URI is required: paste your MongoDB Atlas connection string into .env',
+    })
     .regex(
       /^mongodb(\+srv)?:\/\//,
       'MONGODB_URI must start with mongodb:// or mongodb+srv://'
