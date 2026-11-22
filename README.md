@@ -145,7 +145,7 @@ Tags are trimmed, lowercased and de-duplicated. Search is a case-insensitive sub
    - The `SMTP_*` settings and `MAIL_FROM`.
    - Railway provides `PORT` itself.
 3. In MongoDB Atlas → Network Access, allow Railway's egress. Railway has no fixed IPs on most plans, so this usually means `0.0.0.0/0` combined with a strong database password.
-4. In Google Cloud Console, add your Vercel URL (and `http://localhost:5173`) to the OAuth client's **Authorized JavaScript origins**.
+4. In Google Cloud Console, add your Vercel URL (and `http://localhost:4600`) to the OAuth client's **Authorized JavaScript origins**.
 
 In production the refresh cookie is `Secure; SameSite=None`, because the SPA on Vercel and the API on Railway are different sites. Some browsers block third-party cookies. If that becomes a problem, serve the API from a subdomain of the frontend's domain (e.g. `api.yourdomain.com`) and set `COOKIE_SAMESITE=lax`.
 
